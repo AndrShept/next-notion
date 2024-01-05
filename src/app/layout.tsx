@@ -39,7 +39,7 @@ export default function RootLayout({
           disableTransitionOnChange
           storageKey='jotion-theme-2'
         >
-          <main >{children}</main>
+          <main className='h-full' >{children}</main>
         </ThemeProvider>
         </ConvexClientProvider>
       </body>
