@@ -10,7 +10,7 @@ const MainLayout = ({ children }: { children: ReactNode }) => {
 
   if (isLoading) {
     return (
-      <div className='h-full flex items-center justify-center '>
+      <div className='h-screen flex items-center justify-center '>
         <Loader className='animate-spin h-8 w-8 opacity-70  ' />
       </div>
     );
@@ -20,7 +20,7 @@ const MainLayout = ({ children }: { children: ReactNode }) => {
   }
 
   return (
-    <div className='h-full flex dark:bg-[1F1F1F]'>
+    <div className='h-screen flex  dark:bg-[1F1F1F]'>
       <Navigation />
       <main className='flex-1 h-full'>{children}</main>
     </div>

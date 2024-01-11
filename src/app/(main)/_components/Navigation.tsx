@@ -3,6 +3,9 @@ import { ChevronsLeft, MenuIcon } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import React, { ElementRef, useEffect, useRef, useState } from 'react';
 import { useMediaQuery } from 'usehooks-ts';
+import { UserItem } from './UserItem';
+import { useQuery } from 'convex/react';
+import { api } from '../../../../convex/_generated/api';
 
 export const Navigation = () => {
   const isMobile = useMediaQuery('(max-width: 768px)');
@@ -66,6 +69,7 @@ export const Navigation = () => {
     }
   };
 
+  const documents = useQuery(api.documents.get);
   const handleMouseUp = () => {
     isResizingRef.current = false;
     document.removeEventListener('mousemove', handleMouseMove);
@@ -78,6 +82,7 @@ export const Navigation = () => {
     } else {
       resetWidth();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isMobile]);
   useEffect(() => {
     if (isMobile) {
@@ -89,7 +94,7 @@ export const Navigation = () => {
       <aside
         ref={sidebarRef}
         className={cn(
-          'group/sidebar h-full bg-secondary overflow-y-auto z-[999] relative flex flex-col w-60',
+          'group/sidebar h-full bg-secondary overflow-y-auto z-[40] relative flex flex-col w-60',
           {
             'transition-all ease-in-out duration-300': isResetting,
             'w-0': isMobile,
@@ -109,7 +114,12 @@ export const Navigation = () => {
           <ChevronsLeft className='h-6 w-6' />
         </div>
         <div>
-          <p>Action items</p>
+          <UserItem />
+        </div>
+        <div>
+        {documents?.map(document => 
+          <p key={document._id}>{document.title}</p>
+          )}
         </div>
         <div className='mt-4'>
           <p>Documents</p>
@@ -122,13 +132,10 @@ export const Navigation = () => {
       </aside>
       <div
         ref={navbarRef}
-        className={cn(
-          ' absolute top-0 z-[9999] left-60 w-[calc(100%-240px)] ',
-          {
-            'transition-all ease-in-out duration-300': isResetting,
-            'left-0 w-full': isMobile,
-          }
-        )}
+        className={cn(' absolute top-0 z-[40] left-60 w-[calc(100%-240px)] ', {
+          'transition-all ease-in-out duration-300': isResetting,
+          'left-0 w-full': isMobile,
+        })}
       >
         <nav className='bg-transparent px-3 py-2 w-full'>
           {isCollapsed && (
